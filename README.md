@@ -1,5 +1,5 @@
 # Community-Driven Appointment Scheduler & Resource Hub
-#### Video Demo:  [YOUR VIDEO URL HERE]
+#### Video Demo:  [VIDEO URL HERE]
 #### Description:
 A full-stack web application designed to connect community members through an online instruction scheduling system and a shared resource library. Built as a final project for CS50x.
 
