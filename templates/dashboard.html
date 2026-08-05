@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block main %}
+    <h2 class="mb-4">Your Dashboard</h2>
+    
+    <div class="row mt-4">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Upcoming Appointments</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Placeholder: We will inject database results here later -->
+                    <p class="card-text text-muted my-4">You currently have no upcoming appointments.</p>
+                    
+                    <form action="/book" method="POST">
+                        <button type="submit" class="btn btn-outline-primary" disabled>
+                            Booking Engine Coming Soon
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

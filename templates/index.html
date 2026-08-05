@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <div class="p-5 mb-4 bg-light rounded-3 mt-4">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Welcome to the Community Hub</h1>
+            <p class="col-md-8 fs-4 mx-auto mt-3">
+                A central place to connect, schedule appointments, and share valuable resources with your community.
+            </p>
+            <div class="mt-4">
+                {% if not session["user_id"] %}
+                    <a class="btn btn-primary btn-lg mx-2" href="/register" role="button">Sign Up Today</a>
+                    <a class="btn btn-outline-secondary btn-lg mx-2" href="/login" role="button">Log In</a>
+                {% else %}
+                    <a class="btn btn-primary btn-lg" href="/dashboard" role="button">Go to Dashboard</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
