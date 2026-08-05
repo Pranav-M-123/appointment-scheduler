@@ -1,3 +1,4 @@
+# Note: AI assistance (Google Gemini) was utilized during the development of this project for architecture planning, syntax debugging, and boilerplate generation, in accordance with CS50's final project AI policy.
 import os
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
