@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Book a Session
+{% endblock %}
+
+{% block main %}
+    <h2 class="mb-4">Schedule an Instruction Session</h2>
+    <p class="text-muted mb-4">Select an available instructor, date, and online session time.</p>
+    
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <form action="/book" method="POST">
+                        
+                        <div class="mb-3 text-start">
+                            <label for="provider_id" class="form-label fw-bold">Instructor</label>
+                            <select class="form-select" name="provider_id" id="provider_id" required>
+                                <option value="" disabled selected>Select an instructor...</option>
+                                {% for instructor in instructors %}
+                                    <option value="{{ instructor.id }}">{{ instructor.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <label for="date" class="form-label fw-bold">Date</label>
+                            <input type="date" class="form-control" name="date" id="date" required>
+                        </div>
+
+                        <div class="mb-4 text-start">
+                            <label for="time" class="form-label fw-bold">Time</label>
+                            <input type="time" class="form-control" name="time" id="time" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Confirm Booking</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

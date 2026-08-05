@@ -99,9 +99,28 @@ def logout():
 def dashboard():
     return render_template("dashboard.html")
 
-@app.route("/book", methods=["POST"])
+@app.route("/book", methods=["GET", "POST"])
 def book():
-    return redirect("/dashboard")
+    if request.method == "POST":
+        provider_id = request.form.get("provider_id")
+        date = request.form.get("date")
+        time = request.form.get("time")
+
+        if not provider_id or not date or not time:
+            flash("Must provide all booking details.")
+            return redirect("/book")
+
+        db.execute(
+            "INSERT INTO appointments (provider_id, client_id, date, time, status) VALUES (?, ?, ?, ?, 'booked')",
+            provider_id, session["user_id"], date, time
+        )
+        
+        flash("Instruction session booked successfully!")
+        return redirect("/dashboard")
+
+    else:
+        instructors = db.execute("SELECT id, username FROM users WHERE id != ?", session["user_id"])
+        return render_template("book.html", instructors=instructors)
 
 @app.route("/resources", methods=["GET", "POST"])
 def resources():
