@@ -97,7 +97,17 @@ def logout():
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    # Query the database for the logged-in user's appointments
+    # We use a JOIN to get the username of the provider/instructor
+    appointments = db.execute("""
+        SELECT appointments.date, appointments.time, users.username AS instructor 
+        FROM appointments 
+        JOIN users ON appointments.provider_id = users.id 
+        WHERE appointments.client_id = ? 
+        ORDER BY appointments.date, appointments.time
+    """, session["user_id"])
+    
+    return render_template("dashboard.html", appointments=appointments)
 
 @app.route("/book", methods=["GET", "POST"])
 def book():
