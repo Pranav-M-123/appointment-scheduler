@@ -1,31 +1,29 @@
 # Community-Driven Appointment Scheduler & Resource Hub
-#### Video Demo:  [VIDEO URL HERE]
+#### Video Demo: [YOUR YOUTUBE URL HERE]
 #### Description:
-A full-stack web application designed to connect community members through an online instruction scheduling system and a shared resource library. Built as a final project for CS50x.
+The Community-Driven Appointment Scheduler & Resource Hub is a full-stack web application designed to connect community members through an online instruction scheduling system and a shared educational resource library. Built as my final project for CS50x, this application solves the real-world problem of disorganized peer-to-peer tutoring and community knowledge sharing by centralizing both scheduling and resource distribution into a single, intuitive platform.
 
-## Technologies Used
-* **Backend:** Python, Flask, Flask-Session
-* **Database:** SQLite3
-* **Frontend:** HTML5, CSS3, Bootstrap 5, Jinja2
+## Design Choices & Architecture
+When designing this application, I had to make several key structural decisions. I chose Python and the Flask framework for the backend because of its lightweight nature and seamless integration with Jinja2 templating, which we utilized heavily in Week 9 of the course. 
 
-## Core Features
-1. **User Authentication:** Secure registration and login system utilizing Werkzeug password hashing.
-2. **Dual-View Dashboard:** A custom interface that dynamically separates sessions a user is attending (as a student) from sessions they are hosting (as an instructor).
-3. **Booking Engine:** A streamlined interface for users to select available instructors, dates, and times, saving the appointments relationally in the database.
-4. **Community Resource Hub:** A feed where users can share educational links, materials, and guides with the rest of the community.
+For the database, I opted for SQLite3. While a more robust system like PostgreSQL could handle larger-scale applications, SQLite3 was the perfect fit for this scope, allowing for quick iteration and easy local testing without the overhead of running a separate database server. I designed a relational schema with three main tables: `users`, `appointments`, and `resources`. A major design choice here was utilizing foreign keys to link appointments to two different users simultaneously (a `provider_id` and a `client_id`). This allowed me to build a dynamic, dual-view dashboard.
 
-## Project Structure
-* `app.py`: The core Flask application containing all backend routing, authentication logic, and database queries.
-* `schema.sql`: The database schema outlining the relational tables for `users`, `appointments`, and `resources`.
-* `project.db`: The local SQLite database generated from the schema.
-* `static/styles.css`: Custom CSS styling for hover effects, card aesthetics, and layout spacing.
-* `templates/`: 
-  * `layout.html`: The base Jinja template containing the Bootstrap navbar and flash message logic.
-  * `index.html`: The welcome landing page.
-  * `register.html` & `login.html`: The user authentication forms.
-  * `dashboard.html`: The dual-compartment view for upcoming scheduled sessions.
-  * `book.html`: The form engine for scheduling new appointments.
-  * `resources.html`: The interactive feed for submitting and viewing shared community links.
+On the frontend, I utilized Bootstrap 5. I decided to rely on Bootstrap's grid system and pre-built components (like cards and accordions) to ensure the application was mobile-responsive and accessible out of the box. I supplemented this with a custom `styles.css` file to add modern hover effects and softer UI elements, prioritizing user experience.
 
-#### Author
-Pranav Maturi
+## File Hierarchy and Functions
+
+### Backend & Database
+* **`app.py`**: This is the core engine of the application. It handles all route definitions, session management, and database executions. It includes complex SQL `JOIN` queries to fetch readable usernames rather than raw user IDs when populating the dashboard.
+* **`schema.sql`**: Contains the `CREATE TABLE` commands and indexing logic to build the relational database.
+* **`project.db`**: The live, local SQLite database containing the registered users, booked timeslots, and shared links.
+
+### Frontend Templates
+* **`layout.html`**: The foundational Jinja template. It includes the Bootstrap CDN, the responsive navigation bar (which dynamically renders links based on active session state), and a centralized flash-message container.
+* **`index.html`**: The welcoming landing page containing a call-to-action hero section.
+* **`register.html` & `login.html`**: The user authentication interfaces. The backend logic tied to these forms utilizes Werkzeug's security libraries to hash and verify passwords.
+* **`dashboard.html`**: The most complex view in the application. It splits the user interface into two compartments: "Sessions I'm Attending" and "Students I'm Instructing." This caters to the dual nature of community learning, where a user can be both a student and a teacher.
+* **`book.html`**: The scheduling engine. It queries the database for all available providers and populates a dropdown form for easy selection.
+* **`resources.html`**: The community hub. It features a collapsible form for submitting new resources (keeping the UI uncluttered) and a dynamic feed iterating through the database to display links shared by peers.
+
+## Future Implementation
+If I were to expand this project, I would implement a time-conflict validation system in the `/book` route to prevent double-booking, and add a timezone converter for the scheduling form to accommodate a global community.
