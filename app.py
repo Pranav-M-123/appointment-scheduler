@@ -97,17 +97,25 @@ def logout():
 
 @app.route("/dashboard")
 def dashboard():
-    # Query the database for the logged-in user's appointments
-    # We use a JOIN to get the username of the provider/instructor
-    appointments = db.execute("""
-        SELECT appointments.date, appointments.time, users.username AS instructor 
+    client_appointments = db.execute("""
+        SELECT appointments.date, appointments.time, users.username AS partner 
         FROM appointments 
         JOIN users ON appointments.provider_id = users.id 
         WHERE appointments.client_id = ? 
         ORDER BY appointments.date, appointments.time
     """, session["user_id"])
     
-    return render_template("dashboard.html", appointments=appointments)
+    provider_appointments = db.execute("""
+        SELECT appointments.date, appointments.time, users.username AS partner 
+        FROM appointments 
+        JOIN users ON appointments.client_id = users.id 
+        WHERE appointments.provider_id = ? 
+        ORDER BY appointments.date, appointments.time
+    """, session["user_id"])
+    
+    return render_template("dashboard.html", 
+                           client_appointments=client_appointments, 
+                           provider_appointments=provider_appointments)
 
 @app.route("/book", methods=["GET", "POST"])
 def book():
@@ -135,6 +143,27 @@ def book():
 @app.route("/resources", methods=["GET", "POST"])
 def resources():
     if request.method == "POST":
-        pass
+        title = request.form.get("title")
+        description = request.form.get("description")
+        link = request.form.get("link")
+
+        if not title or not description or not link:
+            flash("Must provide title, description, and link.")
+            return redirect("/resources")
+
+        db.execute(
+            "INSERT INTO resources (title, description, link, author_id) VALUES (?, ?, ?, ?)",
+            title, description, link, session["user_id"]
+        )
+        
+        flash("Resource shared successfully!")
+        return redirect("/resources")
+
     else:
-        return render_template("resources.html")
+        resources_list = db.execute("""
+            SELECT resources.title, resources.description, resources.link, users.username AS author, resources.created_at
+            FROM resources
+            JOIN users ON resources.author_id = users.id
+            ORDER BY resources.created_at DESC
+        """)
+        return render_template("resources.html", resources=resources_list)
