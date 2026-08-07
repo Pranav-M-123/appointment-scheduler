@@ -1,5 +1,5 @@
 # Community-Driven Appointment Scheduler & Resource Hub
-#### Video Demo: [YOUR YOUTUBE URL HERE]
+#### Video Demo: https://youtu.be/hSdpSdYpIJg
 #### Description:
 The Community-Driven Appointment Scheduler & Resource Hub is a full-stack web application designed to connect community members through an online instruction scheduling system and a shared educational resource library. Built as my final project for CS50x, this application solves the real-world problem of disorganized peer-to-peer tutoring and community knowledge sharing by centralizing both scheduling and resource distribution into a single, intuitive platform.
 
